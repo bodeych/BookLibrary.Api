@@ -8,13 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\BookLibrary.Api.Application\BookLibrary.Api.Application.csproj" />
-      <ProjectReference Include="..\BookLibrary.Api.Infrasrtucture\BookLibrary.Api.Infrasrtucture.csproj" />
+      <ProjectReference Include="..\BookLibrary.Api.Infrastructure\BookLibrary.Api.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@ internal sealed class CreateBookCommandHandler : ICommandHandler<CreateBookComma
     {
         var book = Book.Create(request.UserId, request.Title, request.Author, request.Genre, request.PublicationYear);
         
-        await _bookRepository.AddBook(book, cancellationToken);
+        await _bookRepository.AddAsync(book, cancellationToken);
 
         return book.Id;
     }

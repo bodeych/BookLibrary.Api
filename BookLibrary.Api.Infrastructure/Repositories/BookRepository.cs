@@ -1,32 +1,32 @@
 using System.Data;
 using BookLibrary.Api.Application.Interfaces;
 using BookLibrary.Api.Domain.Entities;
-using BookLibrary.Api.Infrasrtucture.Settings;
+using BookLibrary.Api.Infrastructure.Settings;
 using Npgsql;
 
-namespace BookLibrary.Api.Infrasrtucture.Repositories;
+namespace BookLibrary.Api.Infrastructure.Repositories;
 
 public class BookRepository : IBookRepository
 {
     private readonly DatabaseSettings _databaseSettings;
-    
+
     public BookRepository(DatabaseSettings databaseSettings)
     {
         _databaseSettings = databaseSettings;
     }
 
-    public IEnumerable<Book> GetAllBooks()
+    public async Task<IEnumerable<Book>> GetAllAsync(CancellationToken cancellationToken)
     {
         using (var connection = new NpgsqlConnection(_databaseSettings.ConnectionString))
         {
-            connection.Open();
+            await connection.OpenAsync(cancellationToken);
             using (var command = new NpgsqlCommand("SELECT * FROM books", connection))
             {
-                using (var reader = command.ExecuteReader())
+                using (var reader = await command.ExecuteReaderAsync(cancellationToken))
                 {
                     var books = new List<Book>();
 
-                    while (reader.Read())
+                    while (await reader.ReadAsync(cancellationToken))
                     {
                         books.Add(MapToBook(reader));
                     }
@@ -37,18 +37,18 @@ public class BookRepository : IBookRepository
         }
     }
 
-    public Book GetBookById(Guid id)
+    public async Task<Book?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         using (var connection = new NpgsqlConnection(_databaseSettings.ConnectionString))
         {
-            connection.Open();
+            await connection.OpenAsync(cancellationToken);
             using (var command = new NpgsqlCommand("SELECT * FROM books WHERE id = @id", connection))
             {
                 command.Parameters.AddWithValue("@id", id);
                 
-                using (var reader = command.ExecuteReader())
+                using (var reader = await command.ExecuteReaderAsync(cancellationToken))
                 {
-                    if (reader.Read())
+                    if (await reader.ReadAsync(cancellationToken))
                     {
                         return MapToBook(reader);
                     }
@@ -59,12 +59,11 @@ public class BookRepository : IBookRepository
         }
     }
     
-    public async Task AddBook(Book book, CancellationToken cancellationToken)
+    public async Task AddAsync(Book book, CancellationToken cancellationToken)
     {
         using (var connection = new NpgsqlConnection(_databaseSettings.ConnectionString))
         {
-            connection.Open();
-
+            await connection.OpenAsync(cancellationToken);
             using (var command = new NpgsqlCommand("INSERT INTO books (id, user_id, title, author, genre, publication_year) VALUES (@id, @user_id, @title, @author, @genre, @publication_year)", connection))
             {
                 command.Parameters.AddWithValue("@id", book.Id);
@@ -73,6 +72,20 @@ public class BookRepository : IBookRepository
                 command.Parameters.AddWithValue("@author", book.Author);
                 command.Parameters.AddWithValue("@genre", book.Genre);
                 command.Parameters.AddWithValue("@publication_year", book.PublicationYear);
+
+                await command.ExecuteNonQueryAsync(cancellationToken);
+            }
+        }
+    }
+    
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+    {
+        using (var connection = new NpgsqlConnection(_databaseSettings.ConnectionString))
+        {
+            await connection.OpenAsync(cancellationToken);
+            using (var command = new NpgsqlCommand("DELETE FROM books WHERE id = @id", connection))
+            {
+               command.Parameters.AddWithValue("@id", id);
 
                 await command.ExecuteNonQueryAsync(cancellationToken);
             }

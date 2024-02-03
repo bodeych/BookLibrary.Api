@@ -2,12 +2,12 @@ namespace BookLibrary.Api.Domain.Entities;
 
 public sealed class Book
 {
-    public Guid Id { get; set; }
-    public Guid UserId { get; set; }
-    public string Title { get; set; }
-    public string Author { get; set; }
-    public string Genre { get; set; }
-    public int PublicationYear { get; set; }
+    public Guid Id { get; private set; }
+    public Guid UserId { get; private set; }
+    public string Title { get; private set; }
+    public string Author { get; private set; }
+    public string Genre { get; private set; }
+    public int PublicationYear { get; private set; }
 
     private Book(Guid id, Guid userId, string title, string author, string genre, int publicationYear)
     {

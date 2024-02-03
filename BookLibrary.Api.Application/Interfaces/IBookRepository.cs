@@ -4,9 +4,11 @@ namespace BookLibrary.Api.Application.Interfaces;
 
 public interface IBookRepository
 {
-    IEnumerable<Book> GetAllBooks();
+    Task<IEnumerable<Book>> GetAllAsync(CancellationToken cancellationToken);
     
-    Book GetBookById(Guid id);
+    Task<Book?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     
-    Task AddBook(Book book, CancellationToken cancellationToken);
+    Task AddAsync(Book book, CancellationToken cancellationToken);
+
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 }

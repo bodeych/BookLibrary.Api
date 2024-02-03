@@ -1,4 +1,4 @@
-namespace BookLibrary.Api.Infrasrtucture.Settings;
+namespace BookLibrary.Api.Infrastructure.Settings;
 
 public class DatabaseSettings
 {

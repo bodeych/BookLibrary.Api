@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Api.Domain", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Api.Application", "BookLibrary.Api.Application\BookLibrary.Api.Application.csproj", "{477DD215-915E-4082-BA85-C8C9793D2A02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Api.Infrasrtucture", "BookLibrary.Api.Infrasrtucture\BookLibrary.Api.Infrasrtucture.csproj", "{B88F9906-2BA9-4715-8B8A-6A4E59D0FE66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLibrary.Api.Infrastructure", "BookLibrary.Api.Infrastructure\BookLibrary.Api.Infrastructure.csproj", "{B88F9906-2BA9-4715-8B8A-6A4E59D0FE66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
